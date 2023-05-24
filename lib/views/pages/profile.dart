@@ -1,8 +1,8 @@
 import 'package:country_app/constants/colors.dart';
-import 'package:country_app/services/auth/auth_service.dart';
 import 'package:country_app/services/auth/bloc/auth_bloc.dart';
 import 'package:country_app/services/auth/bloc/auth_event.dart';
 import 'package:country_app/services/auth/bloc/auth_state.dart';
+import 'package:country_app/services/auth/firebase_auth_provider.dart';
 import 'package:country_app/utilities/dialogs/logout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +15,7 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  final user = AuthService.firebase().currentUser;
+  final user = FirebaseAuthProvider().currentUser;
 
   @override
   Widget build(BuildContext context) {
