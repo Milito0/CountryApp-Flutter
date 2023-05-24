@@ -26,7 +26,8 @@ class AuthEventLogOut extends AuthEvent {
 class AuthEventRegister extends AuthEvent {
   final String email;
   final String password;
-  const AuthEventRegister(this.email, this.password);
+  final String repeatPassword;
+  const AuthEventRegister(this.email, this.password, this.repeatPassword);
 }
 
 class AuthEventShouldRegister extends AuthEvent {
@@ -36,4 +37,8 @@ class AuthEventShouldRegister extends AuthEvent {
 class AuthEventForgotPassword extends AuthEvent {
   final String? email;
   const AuthEventForgotPassword({this.email});
+}
+
+class AuthEventSignInWithGoogle extends AuthEvent {
+  const AuthEventSignInWithGoogle();
 }

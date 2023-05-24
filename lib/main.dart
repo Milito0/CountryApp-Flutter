@@ -4,7 +4,9 @@ import 'package:country_app/helpers/loading/loading_screen.dart';
 import 'package:country_app/services/auth/bloc/auth_bloc.dart';
 import 'package:country_app/services/auth/bloc/auth_event.dart';
 import 'package:country_app/services/auth/firebase_auth_provider.dart';
+import 'package:country_app/views/home_navigation.dart';
 import 'package:country_app/views/login.dart';
+import 'package:country_app/views/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,6 +49,12 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         if (state is AuthStateLoggedOut) {
           return const LoginView();
+        } else if (state is AuthStateRegistering) {
+          return const RegisterView();
+        } else if (state is AuthStateLoggedOut) {
+          return const LoginView();
+        } else if (state is AuthStateLoggedIn) {
+          return const HomeNavigationView();
         } else {
           return const Scaffold(
             body: CircularProgressIndicator(),

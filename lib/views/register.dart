@@ -5,21 +5,23 @@ import 'package:country_app/services/auth/bloc/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class RegisterView extends StatefulWidget {
+  const RegisterView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<RegisterView> createState() => _RegisterViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController emailController;
   late final TextEditingController passController;
+  late final TextEditingController repeatController;
 
   @override
   void initState() {
     emailController = TextEditingController();
     passController = TextEditingController();
+    repeatController = TextEditingController();
     super.initState();
   }
 
@@ -27,6 +29,7 @@ class _LoginViewState extends State<LoginView> {
   void dispose() {
     emailController.dispose();
     passController.dispose();
+    repeatController.dispose();
     super.dispose();
   }
 
@@ -49,10 +52,11 @@ class _LoginViewState extends State<LoginView> {
         body: Center(
           child: Column(
             children: [
+              // TITULO
               Container(
                 margin: const EdgeInsets.only(top: 75),
                 child: const Text(
-                  'Log-in',
+                  'Sign-in',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 35,
@@ -60,6 +64,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
               ),
+              // TEXTFIELD EMAIL
               Container(
                 margin: const EdgeInsets.only(top: 35),
                 child: SizedBox(
@@ -82,6 +87,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
               ),
+              // TEXTFIELD PASSWORD
               Container(
                 margin: const EdgeInsets.only(top: 35),
                 child: SizedBox(
@@ -104,42 +110,43 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
               ),
+              // TEXTFIELD REPEAT PASSWORD
+              Container(
+                margin: const EdgeInsets.only(top: 35),
+                child: SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: TextField(
+                    controller: repeatController,
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Repeat password',
+                      labelStyle: TextStyle(
+                        fontSize: 15,
+                        color: Color(0xFF000000),
+                      ),
+                      enabledBorder: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+              ),
+              // BUTTON SIGN IN
               Container(
                 margin: const EdgeInsets.only(top: 35),
                 child: SizedBox(
                   width: 150,
                   child: TextButton(
                     onPressed: () {
-                      context.read<AuthBloc>().add(AuthEventLogIn(
-                            emailController.text,
-                            passController.text,
-                          ));
-                    },
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(secondaryAppColor),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                        ),
-                      ),
-                    ),
-                    child: const Text(
-                      'Log in',
-                      style: TextStyle(fontSize: 17),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 10),
-                child: SizedBox(
-                  width: 150,
-                  child: TextButton(
-                    onPressed: () {
-                      context
-                          .read<AuthBloc>()
-                          .add(const AuthEventShouldRegister());
+                      context.read<AuthBloc>().add(
+                            AuthEventRegister(
+                              emailController.text,
+                              passController.text,
+                              repeatController.text,
+                            ),
+                          );
                     },
                     style: ButtonStyle(
                       backgroundColor:
@@ -157,43 +164,15 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: const Divider(
-                        color: Colors.black,
-                        thickness: 1,
-                      ),
-                    ),
-                  ),
-                  const Text('OR'),
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: const Divider(
-                        color: Colors.black,
-                        thickness: 1,
-                      ),
-                    ),
-                  )
-                ],
-              ),
+              // BUTTON LOG IN
               Container(
                 margin: const EdgeInsets.only(top: 10),
                 child: SizedBox(
-                  width: 250,
-                  child: TextButton.icon(
+                  width: 150,
+                  child: TextButton(
                     onPressed: () {
-                      context
-                          .read<AuthBloc>()
-                          .add(const AuthEventSignInWithGoogle());
+                      context.read<AuthBloc>().add(const AuthEventLogOut());
                     },
-                    icon: const ImageIcon(
-                        AssetImage('assets/images/google_img.png')),
                     style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all(secondaryAppColor),
@@ -203,13 +182,14 @@ class _LoginViewState extends State<LoginView> {
                         ),
                       ),
                     ),
-                    label: const Text(
-                      'Sign in with Google',
+                    child: const Text(
+                      'Log in',
                       style: TextStyle(fontSize: 17),
                     ),
                   ),
                 ),
               ),
+              // IMAGEN TIERRA
               Container(
                 margin: const EdgeInsets.only(top: 20),
                 child: Image.asset(
