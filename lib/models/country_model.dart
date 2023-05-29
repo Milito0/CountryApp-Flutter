@@ -10,6 +10,7 @@ class CountryModel {
   int? population;
   List<String>? continents;
   Flags? flags;
+  bool fav = false;
 
   CountryModel(
       {this.name,
