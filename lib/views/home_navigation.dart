@@ -1,8 +1,6 @@
 import 'package:country_app/constants/colors.dart';
-import 'package:country_app/services/api/api_provider.dart';
 import 'package:country_app/services/api/bloc/api_bloc.dart';
 import 'package:country_app/services/api/bloc/api_state.dart';
-import 'package:country_app/services/api/repository.dart';
 import 'package:country_app/views/detail.dart';
 import 'package:country_app/views/pages/home.dart';
 import 'package:country_app/views/pages/profile.dart';
@@ -33,47 +31,43 @@ class _HomeNavigationViewState extends State<HomeNavigationView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ApiBloc>(
-      create: (context) => ApiBloc(Repository()),
-      child: BlocConsumer<ApiBloc, ApiState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          if (state is ApiStateGetCountry) {
-            return DetailView(country: state.country);
-          }
-          return Scaffold(
-            body: _list[_selectedIndex],
-            bottomNavigationBar: Container(
-              color: secondaryAppColor,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                child: GNav(
-                  tabBackgroundColor: backgroundAppColor,
-                  backgroundColor: secondaryAppColor,
-                  gap: 10,
-                  padding: const EdgeInsets.all(10),
-                  tabs: const [
-                    GButton(
-                      icon: Icons.home,
-                      text: 'Home',
-                    ),
-                    GButton(
-                      icon: Icons.search,
-                      text: 'Search',
-                    ),
-                    GButton(
-                      icon: Icons.account_circle_rounded,
-                      text: 'Profile',
-                    ),
-                  ],
-                  onTabChange: (value) => _navigateTo(value),
-                ),
+    return BlocConsumer<ApiBloc, ApiState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        if (state is ApiStateGetCountry) {
+          return DetailView(country: state.country);
+        }
+        return Scaffold(
+          body: _list[_selectedIndex],
+          bottomNavigationBar: Container(
+            color: secondaryAppColor,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+              child: GNav(
+                tabBackgroundColor: backgroundAppColor,
+                backgroundColor: secondaryAppColor,
+                gap: 10,
+                padding: const EdgeInsets.all(10),
+                tabs: const [
+                  GButton(
+                    icon: Icons.home,
+                    text: 'Home',
+                  ),
+                  GButton(
+                    icon: Icons.search,
+                    text: 'Search',
+                  ),
+                  GButton(
+                    icon: Icons.account_circle_rounded,
+                    text: 'Profile',
+                  ),
+                ],
+                onTabChange: (value) => _navigateTo(value),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

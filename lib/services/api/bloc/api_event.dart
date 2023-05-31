@@ -33,3 +33,7 @@ class ApiEventGetCountry extends ApiEvent {
   final String code;
   const ApiEventGetCountry({required this.code});
 }
+
+class ApiEventGetFavorites extends ApiEvent {
+  const ApiEventGetFavorites();
+}

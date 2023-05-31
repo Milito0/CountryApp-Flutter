@@ -3,6 +3,8 @@ import 'package:country_app/models/country_model.dart';
 import 'package:country_app/services/api/bloc/api_bloc.dart';
 import 'package:country_app/services/api/bloc/api_event.dart';
 import 'package:country_app/services/api/bloc/api_state.dart';
+import 'package:country_app/services/auth/auth_service.dart';
+import 'package:country_app/services/cloud/firebase_cloud.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,117 +18,150 @@ class CountryList extends StatefulWidget {
 }
 
 class _CountryListState extends State<CountryList> {
+  late final FirebaseCloudStorage _countryService;
+  String get userId => AuthService.firebase().currentUser!.id;
+
+  @override
+  void initState() {
+    _countryService = FirebaseCloudStorage();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ApiBloc, ApiState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
-        return ListView.builder(
-          itemCount: widget.countries.length,
-          itemBuilder: (context, index) {
-            final country = widget.countries.elementAt(index);
-            return GestureDetector(
-              onTap: () {
-                context
-                    .read<ApiBloc>()
-                    .add(ApiEventGetCountry(code: country.cioc!));
-              },
-              child: Container(
-                height: 120,
-                margin: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: listBackgroundColor,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                  border: Border.all(color: Colors.black),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 10),
-                      width: 220,
-                      child: Center(
-                        child: Column(
+        return StreamBuilder(
+          stream: _countryService.allCountries(ownerId: userId),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+              case ConnectionState.active:
+                return ListView.builder(
+                  itemCount: widget.countries.length,
+                  itemBuilder: (context, index) {
+                    final country = widget.countries.elementAt(index);
+                    return GestureDetector(
+                      onTap: () {
+                        context
+                            .read<ApiBloc>()
+                            .add(ApiEventGetCountry(code: country.cioc!));
+                      },
+                      child: Container(
+                        height: 120,
+                        margin: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: listBackgroundColor,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Row(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: 170,
-                                  child: Text(
-                                    country.name!.common!,
-                                    maxLines: 2,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      fontSize: 25,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      country.fav = !country.fav;
-                                      getIcon(country.fav);
-                                    });
-                                  },
-                                  icon: getIcon(country.fav),
-                                )
-                              ],
-                            ),
                             Container(
                               margin: const EdgeInsets.only(top: 10),
-                              child: Text(
-                                'Capital: ${country.capital![0]}',
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
+                              width: 220,
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: 170,
+                                          child: Text(
+                                            country.name!.common!,
+                                            maxLines: 2,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              fontSize: 25,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () async {
+                                            setState(() {
+                                              country.fav = !country.fav;
+                                              getIcon(country.fav);
+                                            });
+                                            if (!country.fav) {
+                                              await _countryService.removeFav(
+                                                  documentId: userId);
+                                            } else {
+                                              await _countryService
+                                                  .newFavCountry(
+                                                      ownerId: userId,
+                                                      cioc: country.cioc!);
+                                            }
+                                          },
+                                          icon: getIcon(country.fav),
+                                        )
+                                      ],
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 10),
+                                      child: Text(
+                                        'Capital: ${country.capital![0]}',
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      removeDiacritics(
+                                          ('Region: ${country.region}')),
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                            Text(
-                              removeDiacritics(('Region: ${country.region}')),
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: SizedBox(
+                                width: 150,
+                                height: 120,
+                                child: Image.network(
+                                  country.flags!.png!,
+                                  fit: BoxFit.fill,
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        value: loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!
+                                            : null,
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: SizedBox(
-                        width: 150,
-                        height: 120,
-                        child: Image.network(
-                          country.flags!.png!,
-                          fit: BoxFit.fill,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Center(
-                              child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : null,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
+                    );
+                  },
+                );
+              default:
+                return const CircularProgressIndicator();
+            }
           },
         );
       },

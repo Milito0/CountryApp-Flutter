@@ -1,9 +1,10 @@
+import 'dart:developer';
+
 import 'package:country_app/constants/colors.dart';
 import 'package:country_app/services/api/bloc/api_bloc.dart';
 import 'package:country_app/services/api/bloc/api_event.dart';
 import 'package:country_app/services/api/bloc/api_state.dart';
 import 'package:country_app/services/api/repository.dart';
-import 'package:country_app/views/detail.dart';
 import 'package:country_app/widgets/country_list.dart';
 import 'package:country_app/widgets/filter_dialog.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class _SearchViewState extends State<SearchView> {
   @override
   void initState() {
     _sbController = TextEditingController();
+    context.read<ApiBloc>().add(const ApiEventGetAllCountries());
     super.initState();
     repository.getAllCountries();
   }
@@ -37,7 +39,6 @@ class _SearchViewState extends State<SearchView> {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ApiBloc>().add(const ApiEventGetAllCountries());
     return BlocConsumer<ApiBloc, ApiState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -103,19 +104,19 @@ class _SearchViewState extends State<SearchView> {
         _selectedItems.contains('Name')) {
       return const ApiEventGetAllCountries();
     } else if (_selectedItems.contains('Region')) {
-      return ApiEventGetAllCountriesByRegion(name: _sbController.text);
+      return ApiEventGetAllCountriesByRegion(name: value);
     } else if (_selectedItems.contains('Capital')) {
-      return ApiEventGetAllCountriesByCapital(name: _sbController.text);
+      return ApiEventGetAllCountriesByCapital(name: value);
     } else if (_selectedItems.contains('Subregion')) {
-      return ApiEventGetAllCountriesBySubregion(name: _sbController.text);
+      return ApiEventGetAllCountriesBySubregion(name: value);
     } else if (_selectedItems.contains('Name')) {
-      return ApiEventGetAllCountriesByName(name: _sbController.text);
+      return ApiEventGetAllCountriesByName(name: value);
+    } else if (_selectedItems.contains('Favorite')) {
+      return const ApiEventGetFavorites();
     } else {
       return const ApiEventGetAllCountries();
     }
   }
-  //   } else if (_selectedItems.contains('Region'))
-  // }
 
   void _showMultiSelect() async {
     final List<String> items = [
@@ -136,6 +137,7 @@ class _SearchViewState extends State<SearchView> {
         _selectedItems = results;
       });
     }
+    context.read<ApiBloc>().add(searchCountries(_sbController.text));
   }
 
   Widget getWidget(ApiState state) {
@@ -148,6 +150,8 @@ class _SearchViewState extends State<SearchView> {
     } else if (state is ApiStateGetAllCountriesByRegion) {
       return CountryList(countries: state.countries);
     } else if (state is ApiStateGetAllCountriesBySubregion) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetFavCountries) {
       return CountryList(countries: state.countries);
     } else {
       return const Center(

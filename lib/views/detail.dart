@@ -10,43 +10,52 @@ class DetailView extends StatefulWidget {
   State<DetailView> createState() => _DetailViewState();
 }
 
+Future<bool> _onWillPop() async {
+  return false;
+}
+
 class _DetailViewState extends State<DetailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: backgroundAppColor,
-          child: Center(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      color: Colors.red,
-                      margin: const EdgeInsets.only(top: 30, left: 30),
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      child: Text(
-                        widget.country.name!.common!,
-                        style: const TextStyle(fontSize: 40),
+      body: WillPopScope(
+        onWillPop: () {
+          return _onWillPop();
+        },
+        child: SafeArea(
+          child: Container(
+            color: backgroundAppColor,
+            child: Center(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        color: Colors.red,
+                        margin: const EdgeInsets.only(top: 30, left: 30),
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        child: Text(
+                          widget.country.name!.common!,
+                          style: const TextStyle(fontSize: 40),
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 30),
-                      child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            widget.country.fav = !widget.country.fav;
-                            getIcon(widget.country.fav);
-                          });
-                        },
-                        icon: getIcon(widget.country.fav),
-                        iconSize: 40,
+                      Container(
+                        margin: const EdgeInsets.only(top: 30),
+                        child: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              widget.country.fav = !widget.country.fav;
+                              getIcon(widget.country.fav);
+                            });
+                          },
+                          icon: getIcon(widget.country.fav),
+                          iconSize: 40,
+                        ),
                       ),
-                    ),
-                  ],
-                )
-              ],
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
