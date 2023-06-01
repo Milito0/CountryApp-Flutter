@@ -40,7 +40,11 @@ class _SearchViewState extends State<SearchView> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ApiBloc, ApiState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is ApiStateGetCountry) {
+          context.read<ApiBloc>().add(searchCountries(_sbController.text));
+        }
+      },
       builder: (context, state) {
         return SafeArea(
           child: Column(

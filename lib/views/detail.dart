@@ -10,19 +10,17 @@ class DetailView extends StatefulWidget {
   State<DetailView> createState() => _DetailViewState();
 }
 
-Future<bool> _onWillPop() async {
-  return false;
-}
-
 class _DetailViewState extends State<DetailView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: WillPopScope(
-        onWillPop: () {
-          return _onWillPop();
-        },
-        child: SafeArea(
+    return Dismissible(
+      direction: DismissDirection.down,
+      key: UniqueKey(),
+      onDismissed: (direction) {
+        Navigator.of(context).pop();
+      },
+      child: Scaffold(
+        body: SafeArea(
           child: Container(
             color: backgroundAppColor,
             child: Center(

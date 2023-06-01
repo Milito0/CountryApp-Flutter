@@ -32,11 +32,17 @@ class _HomeNavigationViewState extends State<HomeNavigationView> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ApiBloc, ApiState>(
-      listener: (context, state) {},
-      builder: (context, state) {
+      listener: (context, state) {
         if (state is ApiStateGetCountry) {
-          return DetailView(country: state.country);
+          showGeneralDialog(
+            context: context,
+            pageBuilder: (context, animation, secondaryAnimation) => DetailView(
+              country: state.country,
+            ),
+          );
         }
+      },
+      builder: (context, state) {
         return Scaffold(
           body: _list[_selectedIndex],
           bottomNavigationBar: Container(
