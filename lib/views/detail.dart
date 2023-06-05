@@ -38,7 +38,7 @@ class _DetailViewState extends State<DetailView> {
       direction: DismissDirection.down,
       key: UniqueKey(),
       onDismissed: (direction) {
-        Navigator.pop(context);
+        Navigator.of(context).pop();
       },
       child: Scaffold(
         body: SafeArea(

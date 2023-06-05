@@ -23,34 +23,24 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ApiBloc, ApiState>(
-      listener: (context, state) {
-        if (state is ApiStateGetCountry) {
-          context.read<ApiBloc>().add(const ApiEventGetRandomCountries());
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
-        if (state is ApiStateGetRandomCountries) {
-          return SafeArea(
-              child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 20, bottom: 10),
-                child: const Text(
-                  "Paises destacado de cada continente",
-                  style: TextStyle(
-                    fontSize: 25,
-                  ),
+        return SafeArea(
+            child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 20, bottom: 10),
+              child: const Text(
+                "Paises destacado de cada continente",
+                style: TextStyle(
+                  fontSize: 25,
                 ),
               ),
-              // Container Asia
-              Expanded(child: getWidget(state))
-            ],
-          ));
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+            ),
+            // Container Asia
+            Expanded(child: getWidget(state))
+          ],
+        ));
       },
     );
   }
@@ -59,7 +49,10 @@ class _HomeViewState extends State<HomeView> {
     if (state is ApiStateGetRandomCountries) {
       return HomeCountryList(countries: state.countries);
     } else {
-      return const CircularProgressIndicator();
+      context.read<ApiBloc>().add(const ApiEventGetRandomCountries());
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
     }
   }
 }
