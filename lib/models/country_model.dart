@@ -5,7 +5,7 @@ class CountryModel {
   List<String>? capital;
   String? region;
   String? subregion;
-  List<int>? latlng;
+  List<double>? latlng;
   List<String>? borders;
   int? population;
   List<String>? continents;
@@ -34,7 +34,9 @@ class CountryModel {
         : List<String>.from(json["capital"].map((x) => x));
     region = json['region'];
     subregion = json['subregion'];
-    latlng = json['latlng'].cast<int>();
+    latlng = json["latlng"] == null
+        ? []
+        : List<double>.from(json["latlng"].map((x) => x));
     borders = json["borders"] == null
         ? []
         : List<String>.from(json["borders"]!.map((x) => x));

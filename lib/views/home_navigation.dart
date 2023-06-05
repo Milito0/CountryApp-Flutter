@@ -36,9 +36,18 @@ class _HomeNavigationViewState extends State<HomeNavigationView> {
         if (state is ApiStateGetCountry) {
           showGeneralDialog(
             context: context,
+            transitionDuration: const Duration(milliseconds: 400),
             pageBuilder: (context, animation, secondaryAnimation) => DetailView(
               country: state.country,
             ),
+            transitionBuilder: (context, animation, secondaryAnimation, child) {
+              return SlideTransition(
+                position:
+                    Tween(begin: const Offset(0, 1), end: const Offset(0, 0))
+                        .animate(animation),
+                child: child,
+              );
+            },
           );
         }
       },

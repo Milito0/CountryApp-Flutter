@@ -83,20 +83,11 @@ class _CountryListState extends State<CountryList> {
                                           ),
                                         ),
                                         IconButton(
-                                          onPressed: () async {
+                                          onPressed: () {
+                                            removeOrAddFavCountry(country);
                                             setState(() {
                                               country.fav = !country.fav;
-                                              getIcon(country.fav);
                                             });
-                                            if (!country.fav) {
-                                              await _countryService.removeFav(
-                                                  documentId: userId);
-                                            } else {
-                                              await _countryService
-                                                  .newFavCountry(
-                                                      ownerId: userId,
-                                                      cioc: country.cioc!);
-                                            }
                                           },
                                           icon: getIcon(country.fav),
                                         )
@@ -179,5 +170,18 @@ class _CountryListState extends State<CountryList> {
       Icons.favorite,
       color: Colors.red,
     );
+  }
+
+  void removeOrAddFavCountry(CountryModel country) async {
+    final favCountries = await _countryService.getFavCountries(ownerId: userId);
+
+    for (var c in favCountries) {
+      if (c.cioc == country.cioc) {
+        await _countryService.removeFav(documentId: c.documentId);
+        return;
+      }
+    }
+
+    await _countryService.newFavCountry(ownerId: userId, cioc: country.cioc!);
   }
 }
