@@ -1,5 +1,7 @@
 import 'package:country_app/constants/colors.dart';
 import 'package:country_app/models/country_model.dart';
+import 'package:country_app/services/auth/auth_service.dart';
+import 'package:country_app/services/cloud/firebase_cloud.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -14,13 +16,29 @@ class DetailView extends StatefulWidget {
 class _DetailViewState extends State<DetailView> {
   late final GoogleMapController _controller;
   Map<String, Marker> _markers = {};
+
+  late final FirebaseCloudStorage _countryService;
+  String get userId => AuthService.firebase().currentUser!.id;
+
+  @override
+  void initState() {
+    _countryService = FirebaseCloudStorage();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dismissible(
       direction: DismissDirection.down,
       key: UniqueKey(),
       onDismissed: (direction) {
-        Navigator.of(context).pop();
+        Navigator.pop(context);
       },
       child: Scaffold(
         body: SafeArea(
@@ -43,6 +61,7 @@ class _DetailViewState extends State<DetailView> {
                         margin: const EdgeInsets.only(top: 30),
                         child: IconButton(
                           onPressed: () {
+                            removeOrAddFavCountry(widget.country);
                             setState(() {
                               widget.country.fav = !widget.country.fav;
                               getIcon(widget.country.fav);
@@ -191,5 +210,18 @@ class _DetailViewState extends State<DetailView> {
       Icons.favorite,
       color: Colors.red,
     );
+  }
+
+  void removeOrAddFavCountry(CountryModel country) async {
+    final favCountries = await _countryService.getFavCountries(ownerId: userId);
+
+    for (var c in favCountries) {
+      if (c.cioc == country.cioc) {
+        await _countryService.removeFav(documentId: c.documentId);
+        return;
+      }
+    }
+
+    await _countryService.newFavCountry(ownerId: userId, cioc: country.cioc!);
   }
 }

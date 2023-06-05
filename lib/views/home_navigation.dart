@@ -18,9 +18,8 @@ class HomeNavigationView extends StatefulWidget {
 class _HomeNavigationViewState extends State<HomeNavigationView> {
   int _selectedIndex = 0;
   void _navigateTo(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    _selectedIndex = index;
+    setState(() {});
   }
 
   final List<Widget> _list = [
@@ -49,6 +48,8 @@ class _HomeNavigationViewState extends State<HomeNavigationView> {
               );
             },
           );
+        } else if (state is ApiStateGetHomeCountry) {
+          _navigateTo(1);
         }
       },
       builder: (context, state) {

@@ -60,3 +60,15 @@ class ApiStateGetFavCountries extends ApiState {
       : super(
             isLoading: isLoading, loadingText: 'Loading favorite countries..');
 }
+
+class ApiStateGetRandomCountries extends ApiState {
+  final List<CountryModel> countries;
+  const ApiStateGetRandomCountries(
+      {required this.countries, required bool isLoading})
+      : super(isLoading: isLoading, loadingText: 'Loading..');
+}
+
+class ApiStateGetHomeCountry extends ApiState {
+  const ApiStateGetHomeCountry(
+      {required super.isLoading, required super.loadingText});
+}

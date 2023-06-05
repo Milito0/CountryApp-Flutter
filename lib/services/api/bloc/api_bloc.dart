@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:country_app/models/country_model.dart';
 import 'package:country_app/services/api/bloc/api_event.dart';
 import 'package:country_app/services/api/bloc/api_state.dart';
@@ -130,6 +132,54 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
           }
         }
         emit(ApiStateGetFavCountries(isLoading: false, countries: favs));
+      },
+    );
+
+    on<ApiEventGetRandomCountries>(
+      (event, emit) async {
+        emit(const ApiStateUninitialized(isLoading: true));
+        final countries = await repository.getAllCountries();
+        final List<CountryModel> randomCountries = [];
+        final List<CountryModel> americaCountries = [];
+        final List<CountryModel> oceaniaCountries = [];
+        final List<CountryModel> africaCountries = [];
+        final List<CountryModel> europeCountries = [];
+        final List<CountryModel> asiaCountries = [];
+        var rng = Random();
+        for (var c in countries) {
+          if (c.region == 'Asia') {
+            asiaCountries.add(c);
+          } else if (c.region == 'Oceania') {
+            oceaniaCountries.add(c);
+          } else if (c.region == 'Europe') {
+            europeCountries.add(c);
+          } else if (c.region == 'Americas') {
+            americaCountries.add(c);
+          } else if (c.region == 'Africa') {
+            africaCountries.add(c);
+          }
+        }
+
+        randomCountries
+            .add(asiaCountries.elementAt(rng.nextInt(asiaCountries.length)));
+        randomCountries.add(
+            oceaniaCountries.elementAt(rng.nextInt(oceaniaCountries.length)));
+        randomCountries.add(
+            europeCountries.elementAt(rng.nextInt(europeCountries.length)));
+        randomCountries.add(
+            americaCountries.elementAt(rng.nextInt(americaCountries.length)));
+        randomCountries.add(
+            africaCountries.elementAt(rng.nextInt(africaCountries.length)));
+
+        emit(ApiStateGetRandomCountries(
+            countries: randomCountries, isLoading: false));
+      },
+    );
+
+    on<ApiEventGetHomeCountry>(
+      (event, emit) {
+        emit(const ApiStateGetHomeCountry(
+            isLoading: false, loadingText: 'Loading..'));
       },
     );
   }

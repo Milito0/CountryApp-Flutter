@@ -18,7 +18,6 @@ class SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<SearchView> {
-  final Repository repository = Repository();
   late final TextEditingController _sbController;
   List<String> _selectedItems = [];
   late final Widget myList;
@@ -28,7 +27,6 @@ class _SearchViewState extends State<SearchView> {
     _sbController = TextEditingController();
     context.read<ApiBloc>().add(const ApiEventGetAllCountries());
     super.initState();
-    repository.getAllCountries();
   }
 
   @override

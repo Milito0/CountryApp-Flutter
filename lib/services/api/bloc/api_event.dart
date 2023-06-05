@@ -37,3 +37,11 @@ class ApiEventGetCountry extends ApiEvent {
 class ApiEventGetFavorites extends ApiEvent {
   const ApiEventGetFavorites();
 }
+
+class ApiEventGetRandomCountries extends ApiEvent {
+  const ApiEventGetRandomCountries();
+}
+
+class ApiEventGetHomeCountry extends ApiEvent {
+  const ApiEventGetHomeCountry();
+}
