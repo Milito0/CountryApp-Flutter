@@ -35,7 +35,7 @@ class _HomeCountryListState extends State<HomeCountryList> {
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: secondaryAppColor,
+                  color: listBackgroundColor,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(20),
                   ),
@@ -44,16 +44,17 @@ class _HomeCountryListState extends State<HomeCountryList> {
                 child: Row(
                   children: [
                     Container(
-                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      margin: const EdgeInsets.symmetric(vertical: 10),
                       width: (MediaQuery.of(context).size.width - 20) * 0.6,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             country.name!.common!,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 22,
+                              color: Colors.white,
                             ),
                           ),
                           Text(

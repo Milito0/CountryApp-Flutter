@@ -101,10 +101,106 @@ class _SearchViewState extends State<SearchView> {
   ApiEvent searchCountries(String value) {
     if (_selectedItems.contains('Region') &&
         _selectedItems.contains('Capital') &&
-        _selectedItems.contains('subregion') &&
+        _selectedItems.contains('Subregion') &&
         _selectedItems.contains('Favorite') &&
         _selectedItems.contains('Name')) {
-      return const ApiEventGetAllCountries();
+      return ApiEventGetCountriesByAll(name: value);
+    } else if (_selectedItems.contains('Capital') &&
+        _selectedItems.contains('Subregion') &&
+        _selectedItems.contains('Favorite') &&
+        _selectedItems.contains('Name')) {
+      return ApiEventGetCountriesBySubregionCapitalFavoriteAndName(name: value);
+    } else if (_selectedItems.contains('Region') &&
+        _selectedItems.contains('Capital') &&
+        _selectedItems.contains('Favorite') &&
+        _selectedItems.contains('Name')) {
+      return ApiEventGetCountriesByRegionCapitalFavoriteAndName(name: value);
+    } else if (_selectedItems.contains('Region') &&
+        _selectedItems.contains('Subregion') &&
+        _selectedItems.contains('Favorite') &&
+        _selectedItems.contains('Name')) {
+      return ApiEventGetCountriesByRegionSubregionFavoriteAndName(name: value);
+    } else if (_selectedItems.contains('Region') &&
+        _selectedItems.contains('Subregion') &&
+        _selectedItems.contains('Capital') &&
+        _selectedItems.contains('Name')) {
+      return ApiEventGetCountriesByRegionSubregionCapitalAndName(name: value);
+    } else if (_selectedItems.contains('Region') &&
+        _selectedItems.contains('Subregion') &&
+        _selectedItems.contains('Capital') &&
+        _selectedItems.contains('Favorite')) {
+      return ApiEventGetCountriesByRegionSubregionCapitalAndFavorite(
+          name: value);
+    } else if (_selectedItems.contains('Capital') &&
+        _selectedItems.contains('Favorite') &&
+        _selectedItems.contains('Name')) {
+      return ApiEventGetCountriesByCapitalFavoriteAndName(name: value);
+    } else if (_selectedItems.contains('Subregion') &&
+        _selectedItems.contains('Favorite') &&
+        _selectedItems.contains('Name')) {
+      return ApiEventGetCountriesBySubregionFavoriteAndName(name: value);
+    } else if (_selectedItems.contains('Subregion') &&
+        _selectedItems.contains('Capital') &&
+        _selectedItems.contains('Name')) {
+      return ApiEventGetCountriesBySubregionCapitalAndName(name: value);
+    } else if (_selectedItems.contains('Subregion') &&
+        _selectedItems.contains('Capital') &&
+        _selectedItems.contains('Favorite')) {
+      return ApiEventGetCountriesBySubregionCapitalAndFavorite(name: value);
+    } else if (_selectedItems.contains('Region') &&
+        _selectedItems.contains('Favorite') &&
+        _selectedItems.contains('Name')) {
+      return ApiEventGetCountriesByRegionFavoriteAndName(name: value);
+    } else if (_selectedItems.contains('Region') &&
+        _selectedItems.contains('Capital') &&
+        _selectedItems.contains('Name')) {
+      return ApiEventGetCountriesByRegionCapitalAndName(name: value);
+    } else if (_selectedItems.contains('Region') &&
+        _selectedItems.contains('Capital') &&
+        _selectedItems.contains('Favorite')) {
+      return ApiEventGetCountriesByRegionCapitalAndFavorite(name: value);
+    } else if (_selectedItems.contains('Region') &&
+        _selectedItems.contains('Subregion') &&
+        _selectedItems.contains('Name')) {
+      return ApiEventGetCountriesByRegionSubregionAndName(name: value);
+    } else if (_selectedItems.contains('Region') &&
+        _selectedItems.contains('Subregion') &&
+        _selectedItems.contains('Favorite')) {
+      return ApiEventGetCountriesByRegionSubregionAndFavorite(name: value);
+    } else if (_selectedItems.contains('Region') &&
+        _selectedItems.contains('Subregion') &&
+        _selectedItems.contains('Capital')) {
+      return ApiEventGetCountriesByRegionSubregionAndCapital(name: value);
+    } else if (_selectedItems.contains('Favorite') &&
+        _selectedItems.contains('Name')) {
+      return ApiEventGetCountriesByFavoriteAndName(name: value);
+    } else if (_selectedItems.contains('Capital') &&
+        _selectedItems.contains('Name')) {
+      return ApiEventGetCountriesByCapitalAndName(name: value);
+    } else if (_selectedItems.contains('Capital') &&
+        _selectedItems.contains('Favorite')) {
+      return ApiEventGetCountriesByCapitalAndFavorite(name: value);
+    } else if (_selectedItems.contains('Name') &&
+        _selectedItems.contains('Subregion')) {
+      return ApiEventGetCountriesBySubregionAndName(name: value);
+    } else if (_selectedItems.contains('Favorite') &&
+        _selectedItems.contains('Subregion')) {
+      return ApiEventGetCountriesBySubregionAndFavorite(name: value);
+    } else if (_selectedItems.contains('Capital') &&
+        _selectedItems.contains('Subregion')) {
+      return ApiEventGetCountriesBySubregionAndCapital(name: value);
+    } else if (_selectedItems.contains('Region') &&
+        _selectedItems.contains('Name')) {
+      return ApiEventGetCountriesByRegionAndName(name: value);
+    } else if (_selectedItems.contains('Region') &&
+        _selectedItems.contains('Favorite')) {
+      return ApiEventGetCountriesByRegionAndFavorite(name: value);
+    } else if (_selectedItems.contains('Region') &&
+        _selectedItems.contains('Capital')) {
+      return ApiEventGetCountriesByRegionAndCapital(name: value);
+    } else if (_selectedItems.contains('Region') &&
+        _selectedItems.contains('Subregion')) {
+      return ApiEventGetCountriesByRegionAndSubregion(name: value);
     } else if (_selectedItems.contains('Region')) {
       return ApiEventGetAllCountriesByRegion(name: value);
     } else if (_selectedItems.contains('Capital')) {
@@ -155,9 +251,66 @@ class _SearchViewState extends State<SearchView> {
       return CountryList(countries: state.countries);
     } else if (state is ApiStateGetFavCountries) {
       return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByNameAndRegion) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByNameAndSubregion) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByNameAndCapital) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByNameAndFavorite) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByRegionAndSubregion) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByRegionAndCapital) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByRegionAndFavorite) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesBySubregionAndCapital) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesBySubregionAndFavorite) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByCapitalAndFavorite) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByRegionSubregionAndCapital) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByRegionSubregionAndFavorite) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByRegionSubregionAndName) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByRegionCapitalAndFavorite) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByRegionCapitalAndName) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByRegionFavoriteAndName) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesBySubregionCapitalAndFavorite) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesBySubregionCapitalAndName) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesBySubregionFavoriteAndName) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByCapitalFavoriteAndName) {
+      return CountryList(countries: state.countries);
+    } else if (state
+        is ApiStateGetCountriesByRegionSubregionCapitalAndFavorite) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByRegionSubregionCapitalAndName) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByRegionSubregionFavoriteAndName) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByRegionCapitalFavoriteAndName) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesBySubregionCapitalFavoriteAndName) {
+      return CountryList(countries: state.countries);
+    } else if (state is ApiStateGetCountriesByAll) {
+      return CountryList(countries: state.countries);
     } else {
-      return const Center(
-        child: CircularProgressIndicator(),
+      return Center(
+        child: Image.asset(
+          "assets/images/globe-2.gif",
+          height: 200,
+          width: 200,
+        ),
       );
     }
   }

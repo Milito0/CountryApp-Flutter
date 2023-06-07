@@ -47,19 +47,19 @@ class _DetailViewState extends State<DetailView> {
             child: Center(
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 30, left: 30),
-                        width: MediaQuery.of(context).size.width * 0.7,
-                        child: Text(
-                          widget.country.name!.common!,
-                          style: const TextStyle(fontSize: 40),
+                  SizedBox(
+                    height: 180,
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(left: 30),
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          child: Text(
+                            widget.country.name!.common!,
+                            style: const TextStyle(fontSize: 40),
+                          ),
                         ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 30),
-                        child: IconButton(
+                        IconButton(
                           onPressed: () {
                             removeOrAddFavCountry(widget.country);
                             setState(() {
@@ -70,13 +70,13 @@ class _DetailViewState extends State<DetailView> {
                           icon: getIcon(widget.country.fav),
                           iconSize: 40,
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   Row(
                     children: [
                       Container(
-                        margin: const EdgeInsets.only(top: 90, left: 30),
+                        margin: const EdgeInsets.only(top: 20, left: 30),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -107,7 +107,7 @@ class _DetailViewState extends State<DetailView> {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 90, left: 30),
+                        margin: const EdgeInsets.only(top: 20, left: 30),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: SizedBox(

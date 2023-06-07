@@ -20,9 +20,7 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -55,6 +53,14 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
               ),
             ),
+            Container(
+              margin: const EdgeInsets.only(top: 30),
+              child: Image.asset(
+                "assets/images/earth.png",
+                height: 100,
+                width: 100,
+              ),
+            )
           ],
         ),
       ),

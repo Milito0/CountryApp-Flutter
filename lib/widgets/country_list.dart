@@ -87,6 +87,11 @@ class _CountryListState extends State<CountryList> {
                                             removeOrAddFavCountry(country);
                                             setState(() {
                                               country.fav = !country.fav;
+                                              if (state
+                                                  is ApiStateGetFavCountries) {
+                                                widget.countries
+                                                    .removeAt(index);
+                                              }
                                             });
                                           },
                                           icon: getIcon(country.fav),
@@ -151,7 +156,13 @@ class _CountryListState extends State<CountryList> {
                   },
                 );
               default:
-                return const CircularProgressIndicator();
+                return Center(
+                  child: Image.asset(
+                    "assets/images/globe-2.gif",
+                    height: 200,
+                    width: 200,
+                  ),
+                );
             }
           },
         );

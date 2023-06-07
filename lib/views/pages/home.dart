@@ -28,14 +28,19 @@ class _HomeViewState extends State<HomeView> {
         return SafeArea(
             child: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.only(top: 20, bottom: 10),
-              child: const Text(
-                "Paises destacado de cada continente",
-                style: TextStyle(
-                  fontSize: 25,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 20, bottom: 10),
+                  child: const Text(
+                    "FEATURED COUNTRIES",
+                    style: TextStyle(
+                      fontSize: 28,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
             // Container Asia
             Expanded(child: getWidget(state))
@@ -50,8 +55,12 @@ class _HomeViewState extends State<HomeView> {
       return HomeCountryList(countries: state.countries);
     } else {
       context.read<ApiBloc>().add(const ApiEventGetRandomCountries());
-      return const Center(
-        child: CircularProgressIndicator(),
+      return Center(
+        child: Image.asset(
+          "assets/images/globe-2.gif",
+          height: 200,
+          width: 200,
+        ),
       );
     }
   }

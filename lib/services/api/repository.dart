@@ -17,7 +17,7 @@ class Repository extends ApiProvider {
           List<CountryModel>.from(newData.map((e) => CountryModel.fromJson(e)));
       return countries;
     }
-    return List.empty();
+    return List.empty(growable: true);
   }
 
   @override
@@ -36,7 +36,7 @@ class Repository extends ApiProvider {
         return false;
       }).toList();
     }
-    return List.empty();
+    return List.empty(growable: true);
   }
 
   @override
@@ -61,7 +61,7 @@ class Repository extends ApiProvider {
         return false;
       }).toList();
     }
-    return List.empty();
+    return List.empty(growable: true);
   }
 
   @override
@@ -80,7 +80,7 @@ class Repository extends ApiProvider {
         return false;
       }).toList();
     }
-    return List.empty();
+    return List.empty(growable: true);
   }
 
   @override
@@ -99,7 +99,7 @@ class Repository extends ApiProvider {
         return false;
       }).toList();
     }
-    return List.empty();
+    return List.empty(growable: true);
   }
 
   @override
