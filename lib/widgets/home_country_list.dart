@@ -61,7 +61,8 @@ class _HomeCountryListState extends State<HomeCountryList> {
                             country.region!,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                              fontSize: 22,
+                              fontSize: 18,
+                              color: Colors.white,
                             ),
                           ),
                         ],

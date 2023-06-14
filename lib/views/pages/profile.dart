@@ -25,7 +25,12 @@ class _ProfileViewState extends State<ProfileView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(user!.email),
+            Text(
+              user!.email,
+              style: const TextStyle(
+                fontSize: 20,
+              ),
+            ),
             Container(
               margin: const EdgeInsets.only(top: 35),
               child: SizedBox(

@@ -208,7 +208,7 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
         regionCountries.toSet().toList();
 
         emit(ApiStateGetCountriesByRegionAndSubregion(
-            isLoading: false, countries: subregionCountries));
+            isLoading: false, countries: regionCountries));
       },
     );
 
@@ -235,7 +235,7 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
         regionCountries.toSet().toList();
 
         emit(ApiStateGetCountriesByRegionAndCapital(
-            isLoading: false, countries: countries));
+            isLoading: false, countries: regionCountries));
       },
     );
 
@@ -283,7 +283,7 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
         regionCountries.toSet().toList();
 
         emit(ApiStateGetCountriesByNameAndRegion(
-            isLoading: false, countries: countries));
+            isLoading: false, countries: regionCountries));
       },
     );
 
@@ -310,7 +310,7 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
         subregionCountries.toSet().toList();
 
         emit(ApiStateGetCountriesBySubregionAndCapital(
-            isLoading: false, countries: countries));
+            isLoading: false, countries: subregionCountries));
       },
     );
 
@@ -359,7 +359,7 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
         subregionCountries.toSet().toList();
 
         emit(ApiStateGetCountriesByNameAndSubregion(
-            isLoading: false, countries: countries));
+            isLoading: false, countries: subregionCountries));
       },
     );
 
@@ -407,7 +407,7 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
         regionCountries.toSet().toList();
 
         emit(ApiStateGetCountriesByNameAndCapital(
-            isLoading: false, countries: countries));
+            isLoading: false, countries: regionCountries));
       },
     );
 
@@ -460,7 +460,7 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
         regionCountries.toSet().toList();
 
         emit(ApiStateGetCountriesByRegionSubregionAndCapital(
-            isLoading: false, countries: countries));
+            isLoading: false, countries: regionCountries));
       },
     );
 
@@ -521,7 +521,7 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
         regionCountries.toSet().toList();
 
         emit(ApiStateGetCountriesByRegionSubregionAndName(
-            isLoading: false, countries: countries));
+            isLoading: false, countries: regionCountries));
       },
     );
 
@@ -581,7 +581,7 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
         regionCountries.toSet().toList();
 
         emit(ApiStateGetCountriesByRegionCapitalAndName(
-            isLoading: false, countries: countries));
+            isLoading: false, countries: regionCountries));
       },
     );
 
@@ -670,7 +670,7 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
         regionCountries.toSet().toList();
 
         emit(ApiStateGetCountriesBySubregionCapitalAndName(
-            isLoading: false, countries: countries));
+            isLoading: false, countries: regionCountries));
       },
     );
 
@@ -800,7 +800,7 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
         regionCountries.toSet().toList();
 
         emit(ApiStateGetCountriesByRegionSubregionCapitalAndName(
-            isLoading: false, countries: countries));
+            isLoading: false, countries: regionCountries));
       },
     );
 
